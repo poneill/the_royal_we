@@ -2,7 +2,7 @@
 This file contains code for testing wem.py
 """
 import random
-from wem import *
+from we import *
 
 def test_we():
     """Check the validity of the implementation by sampling the random
