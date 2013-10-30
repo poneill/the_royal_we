@@ -117,93 +117,7 @@ def weighted_ensemble(q, f, init_states, bins, M, tau, timesteps,final_bin_index
         if final_bin_index and binned_states[final_bin_index]:
             return binned_states
     return binned_states
-
-def random_motif_with_dirty_bits(length,num_sites):
-    motif = random_motif(length,num_sites)
-    dirty_bits = [False] * length
-    ics = map(lambda col:2-dna_entropy(col),
-              transpose(motif))
-    return motif,ics
-
-def mutate_motif_with_dirty_bits((motif,ics)):
-    length = len(motif[0])
-    num_sites = len(motif)
-    i = random.randrange(num_sites)
-    j = random.randrange(length)
-    site = motif[i]
-    b = site[j]
-    new_b = random.choice([c for c in "ACGT" if not c == b])
-    new_site = subst(site,new_b,j)
-    new_motif = [site if k != i else new_site
-                 for k,site in enumerate(motif)]
-    jth_column = transpose(new_motif)[j]
-    jth_ic = 2-dna_entropy(jth_column)
-    new_ics = subst(ics,jth_ic,j)
-    return new_motif,new_ics
-
-def motif_ic_with_dirty_bits((motif,ics)):
-    return sum(ics)
-
-def test_dirty_bits():
-    for i in range(1000):
-        m = random_motif_with_dirty_bits(10,16)
-        m_ic1 = motif_ic_with_dirty_bits(m)
-        m_ic2 = motif_ic(m[0])
-        m1 = mutate_motif_with_dirty_bits(m)
-        m1_ic1 = motif_ic_with_dirty_bits(m1)
-        m1_ic2 = motif_ic(m1[0])
-        print m_ic1 - m_ic2
-        print m1_ic1 - m1_ic2
         
-def sample_motifs(length,num_sites,ic,epsilon):
-    bins = [-10] + myrange(0,ic,epsilon) + [ic,ic + epsilon]+ [ic + 10]
-    tau = 1
-    timesteps = 50
-    M = 100
-    init_states = [random_motif(10,16) for i in range(M)]
-    results = weighted_ensemble(mutate_motif, motif_ic, init_states,
-                                bins, M, tau, timesteps)
-    motifs,ps = transpose(concat(results[-3:-1]))
-    return inverse_cdf_sample(motifs,normalize(ps))
-
-def sample_motifs_with_dirty_bits(length,num_sites,ic,epsilon,inv_cdf=True,timesteps = 100,wait_indefinitely=False,init_states=None):
-    print "timesteps:",timesteps
-    bins = [-10] + myrange(0,ic,epsilon) + [ic,ic + epsilon]+ [ic + 10]
-    final_bin_index = None if not wait_indefinitely else -2
-    tau = 1
-    M = 100
-    if init_states == None:
-        init_states = [random_motif_with_dirty_bits(length,num_sites)
-                       for i in range(M)]
-    results = weighted_ensemble(mutate_motif_with_dirty_bits,
-                                motif_ic_with_dirty_bits,
-                                init_states,
-                                bins, M, tau, timesteps,
-                                final_bin_index=final_bin_index,verbose=1)
-    try:
-        motifs,ps = transpose(concat(results[-3:-1]))
-    except ValueError:
-        motifs,ps = transpose(concat(results))
-        return sample_motifs_with_dirty_bits(length,num_sites,ic,epsilon,inv_cdf,timesteps, wait_indefinitely,init_states=motifs)
-    if inv_cdf:
-        motif, ics = inverse_cdf_sample(motifs,normalize(ps))
-        return motif
-    else:
-        stripped_motifs = [motif for motif,ics in motifs]
-        return stripped_motifs
-
-def match_motif(motif,epsilon=0.1,inv_cdf=True,wait_indefinitely=False):
-    length = len(motif[0])
-    num_sites = len(motif)
-    ic = motif_ic(motif)
-    return sample_motifs_with_dirty_bits(length,num_sites,ic,epsilon,inv_cdf=inv_cdf,
-                                         wait_indefinitely=wait_indefinitely)
-    
-def wem_control_motif(motif,epsilon=0.1):
-    num_sites = len(motif)
-    length = len(motif[0])
-    ic = motif_ic(motif)
-    return sample_motifs(length,num_sites,ic,epsilon)
 
 def test_we():
     """Check the validity of the implementation by sampling the random
@@ -226,15 +140,3 @@ def test_we():
     results = weighted_ensemble(q, f, init_states, bins, M, tau, timesteps)
     return results
 
-def ic_we():
-    bins = range(-1,3) + myrange(3,12,0.1) + [50]
-    hist = weighted_ensemble(mutate_motif,
-                             motif_ic,
-                             [random_motif(10,16) for i in range(100)],
-                             bins=bins,
-                             M=1000,
-                             tau=1,
-                             timesteps=500)
-    return hist
-    
-print "loaded"
