@@ -1,6 +1,19 @@
 
 * Overview
 
+This repository contains a Python implementation of the Weighted
+Ensemble Method for sampling rare events from arbitrary distributions.
+
+* References
+  - [[http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2830257/][Huber and Kim. Biophys. J. 70, 97 (1996).]]
+  - [[http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2830257/][Zhang, Jasnow and Zuckerman.  J Chem Phys. 2010 February 7; 132(5): 054107.]] 
+
+  See also:
+
+  - [[chong.chem.pitt.edu/WESTPA/we-overview.pdf‎][Zuckerman, DM.  Overview of Weighted Ensemble Simulation.]]
+
+  for an overview.
+
 * Installation
 
 At the command line type:
