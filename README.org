@@ -23,5 +23,5 @@ At the command line type:
 
 ** A note on the preferred nomenclature
 
-   WE is a powerful yet very general sampling method.  I therefore
-   refer to it as "the royal WE".  You know, the editorial...
+   WE is a powerful yet very general sampling method, hence "the royal
+   WE".  You know, the editorial...
