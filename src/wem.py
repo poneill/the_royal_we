@@ -1,11 +1,9 @@
 """
-The purpose of this script is to attempt to sample uniformly from the
-set of all motifs having IC of c +/- epsilon.  We do this through the
-weighted ensemble method.
+Implements the weighted ensemble method.
 """
+
 from random import shuffle,random,choice,randrange
 from utils import *
-from scipy.stats import norm
 import mpmath as mp
 
 def total_prob(binned_states):
