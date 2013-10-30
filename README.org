@@ -30,18 +30,36 @@ lattice, what is the probability that a particle beginning at x=0 when
 t=0 will arrive at x=100 when t=100?  Clearly, it can be shown
 analytically that this probability is 1/2^100.  It would be extremely
 difficult to estimate this quantity with conventional simulation, but
-with WE the problem becomes tractable.
+with WE the problem becomes tractable.  
+
+Define the transition kernel as follows:
 
 : def q(x):
 :     return x- 1 if random.random() < .5 else x + 1
 
+Bin every lattice point in [-100,100]:
+
 : bins = range(-100,101)
+
+The projection function is just the identity function here:
+
 : f = lambda x:x
+
+Initialize 100 trajectories at the origin:
 : init_states = [0] * 100
-: bins = range(-101,101)
+
+Set 100 trajectories per bin:
 : M = 100
+
+And run for 100 timesteps, resorting the bins every timestep:
+: timesteps = 100
 : tau = 1
+
+Run the simulation:
 : final_bins = weighted_ensemble(q, f, init_states, bins, M, tau, timesteps)
+
+And sum the probabilities of all the trajectories in the desired bin:
+
 : sum(p for (s,p) in final_bins[-1])
 
 * Acknowledgements
