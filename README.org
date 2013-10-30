@@ -65,7 +65,7 @@ And sum the probabilities of all the trajectories in the desired bin:
 * Acknowledgements
 
   Thanks to Rory Donovan for introducing me to the algorithm and for
-  helpful comments on implementation.
+  helpful comments on implementation.  All bugs, of course, are due to me.
 
 ** A note on the preferred nomenclature
 
