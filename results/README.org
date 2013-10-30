@@ -1,0 +1,3 @@
+This directory should contain any data which was generated from the
+raw input data in /data.  It should contain not only final results,
+but also any intermediate files.
