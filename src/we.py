@@ -43,7 +43,7 @@ def upsample(states,M):
     return new_states
 
 def weighted_ensemble(q, f, init_states, bins, M, tau, timesteps,
-                      final_bin_index=None,verbose=2):
+                      final_bin_index=None,verbose=0):
     """
     Sample the distribution associated with the Markov process given
     by transition kernel (or matrix) q by applying the Weighted
