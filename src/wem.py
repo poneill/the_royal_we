@@ -31,20 +31,6 @@ def downsample(states,M):
         n = len(new_states)
     p_after = sum(p for m,p in new_states)
     return new_states
-
-def test_downsample():
-    before_num = 2000
-    after_num = 1000
-    xs = [random.normalvariate(0,1) for i in range(before_num)]
-    ps = [1/float(before_num) for i in range(before_num)]
-    states = zip(xs,ps)
-    mu0 = sum([x*p for x,p in states])
-    sigma0 = sum([(x**2)*p for x,p in states])
-    new_states = downsample(states,after_num)
-    mu1  = sum([x*p for x,p in new_states])
-    sigma1 = sum([(x**2)*p for x,p in new_states])
-    print mu0,sigma0
-    print mu1,sigma1
     
 def upsample(states,M):
     deficiency = M - len(states)
@@ -58,22 +44,8 @@ def upsample(states,M):
     p_check = sum(map(second,new_states))
     return new_states
 
-def test_upsample():
-    before_num = 500
-    after_num = 1000
-    xs = [random.normalvariate(0,1) for i in range(before_num)]
-    ps = [1/float(before_num) for i in range(before_num)]
-    states = zip(xs,ps)
-    mu0 = sum([x*p for x,p in states])
-    sigma0 = sum([(x**2)*p for x,p in states])
-    new_states = upsample(states,after_num)
-    mu1  = sum([x*p for x,p in new_states])
-    sigma1 = sum([(x**2)*p for x,p in new_states])
-    print mu0,sigma0
-    print mu1,sigma1
-
-
-def weighted_ensemble(q, f, init_states, bins, M, tau, timesteps,final_bin_index=None,verbose=2):
+def weighted_ensemble(q, f, init_states, bins, M, tau, timesteps,
+                      final_bin_index=None,verbose=2):
     Q = lambda (state,p):(q(state),p)
     F = lambda (state,p):(f(state),p)
     n = float(len(init_states))
