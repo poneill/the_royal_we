@@ -1,0 +1,6 @@
+[submodule "pub/refs"]
+	path = pub/refs
+	url = git@github.com:poneill/bib.git
+[submodule "lib/utils"]
+	path = lib/utils
+	url = git@github.com:poneill/python_utils.git
